@@ -1,7 +1,9 @@
-﻿.navbar {
+﻿/*Navbar*/
+.navbar {
     background-color: blanchedalmond;
 }
 
+/*For Banner Image*/
 .banner-container {
     background-image: url('../img/banner.jpg');
     background-size:cover;
@@ -11,15 +13,11 @@
     height:auto;
 }
 
-.banner-container h1 {
-    font-size: 36px;
+/*Style*/
+.row {
+    display: flex;
 }
 
-.banner-container p {
-    font-size: 24px;
-}
-
-.banner-container .btn {
-    font-size: 20px;
-    padding: 10px 20px;
+.row > div:not(:first-child) {
+    border-left: 1px solid #ccc;
 }

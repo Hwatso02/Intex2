@@ -38,12 +38,12 @@ namespace Intex2
             services.Configure<IdentityOptions>(options =>
             {
                 // Default Password settings.
-                options.Password.RequireDigit = true;
+                options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequiredLength = 12;
-                options.Password.RequiredUniqueChars = 1;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 20;
+                options.Password.RequiredUniqueChars = 0;
             });
         }
 
