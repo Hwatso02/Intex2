@@ -7,26 +7,17 @@
     ViewBag.Title = "Data";
 }
 
+
+
 <h2>Data</h2>
 
-<!-- Add your HTML elements here -->
-<button id="getPredictionButton">Get Prediction</button>
-
-<!-- Add the JavaScript code for the prediction -->
-
-@section scripts {
-    <script>
-        // Set the input data for the prediction
-        var inputValues = [15, 5.5, 120, 7, 50, 80, 100, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1];
-
-        // Set the URL of the controller action method
-        var url = "/PredictionController/ActionMethodName";
-
-        // Set the request data
-        var requestData = JSON.stringify(inputValues);
-
-        // Send the POST request to the controller action method
+<div>
+    <form method="post" asp-action="GeneratePrediction">
+        <button type="submit" class="btn btn-primary">New Prediction</button>
+    </form>
+    
+</div>
 
 
-    </script>
-}
+
+
