@@ -34,6 +34,17 @@ namespace Intex2
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Default Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 12;
+                options.Password.RequiredUniqueChars = 1;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
