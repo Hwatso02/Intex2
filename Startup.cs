@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,6 +21,12 @@ namespace Intex2
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+    
+            // Set the PYTHONNET_PYDLL environment variable
+            var pythonPath = @"C:\path\to\your\python\installation"; // Replace with your actual Python installation path
+            var pythonDllPath = Path.Combine(pythonPath, "pythonXX.dll"); // Replace XX with the Python version you installed, e.g., python38.dll for Python 3.8
+            Environment.SetEnvironmentVariable("PYTHONNET_PYDLL", pythonDllPath);
+            
         }
 
         public IConfiguration Configuration { get; }
