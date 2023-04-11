@@ -1,0 +1,25 @@
+﻿.navbar {
+    background-color: blanchedalmond;
+}
+
+.banner-container {
+    background-image: url('../img/banner.jpg');
+    background-size:cover;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    height:auto;
+}
+
+.banner-container h1 {
+    font-size: 36px;
+}
+
+.banner-container p {
+    font-size: 24px;
+}
+
+.banner-container .btn {
+    font-size: 20px;
+    padding: 10px 20px;
+}
