@@ -45,6 +45,24 @@ namespace Intex2
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            string defaultConnectionString = string.Format(
+                Configuration.GetConnectionString("DefaultConnection"),
+                Environment.GetEnvironmentVariable("DEFAULT_DB_HOST"),
+                Environment.GetEnvironmentVariable("DEFAULT_DB_PORT"),
+                Environment.GetEnvironmentVariable("DEFAULT_DB_NAME"),
+                Environment.GetEnvironmentVariable("DEFAULT_DB_USER"),
+                Environment.GetEnvironmentVariable("DEFAULT_DB_PASSWORD")
+            );
+
+            string authLinkConnectionString = string.Format(
+                Configuration.GetConnectionString("AuthLink"),
+                Environment.GetEnvironmentVariable("AUTH_DB_HOST"),
+                Environment.GetEnvironmentVariable("AUTH_DB_PORT"),
+                Environment.GetEnvironmentVariable("AUTH_DB_NAME"),
+                Environment.GetEnvironmentVariable("AUTH_DB_USER"),
+                Environment.GetEnvironmentVariable("AUTH_DB_PASSWORD")
+            );
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
