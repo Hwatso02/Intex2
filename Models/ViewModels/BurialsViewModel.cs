@@ -9,6 +9,7 @@ namespace Intex2.Models.ViewModels
     {
         public List<BurialMain> Burialmains { get; set; }
         public List<BodyAnalysisChart> Bodyanalysischarts { get; set; }
+        public PageInfo PageInfo { get; set; }
 
     }
 }

@@ -59,12 +59,30 @@ namespace Intex2.Controllers
             return View();
         }
 
-        public IActionResult DisplayBurials()
+        public IActionResult DisplayBurials(int pageNum = 1)
         {
+            int pageSize = 15;
+
             var viewModel = new BurialsViewModel
             {
-                Burialmains = _context.BurialMain.ToList(),
-                Bodyanalysischarts = _context.BodyAnalysisChart.ToList()
+                Burialmains = _context.BurialMain
+                    //.OrderBy(b => b.Burialid)
+                    .Skip((pageNum - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList(),
+
+                PageInfo = new PageInfo
+                {
+                    TotalNumBurials = _context.BurialMain.Count(),
+                    BurialsPerPage = pageSize,
+                    CurrentPage = pageNum
+                },
+
+                Bodyanalysischarts = _context.BodyAnalysisChart
+                    //.OrderBy(b => b.Id)
+                    .Skip((pageNum - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList()
             };
 
             return View(viewModel);
