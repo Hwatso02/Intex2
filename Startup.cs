@@ -1,4 +1,5 @@
 using Intex2.Data;
+using Intex2.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+
 
 namespace Intex2
 {
@@ -38,11 +40,23 @@ namespace Intex2
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
+
                 // cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 // requires using Microsoft.AspNetCore.Http;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+
+            string defaultConnectionString = string.Format(
+              Configuration.GetConnectionString("DefaultConnection"),
+              Environment.GetEnvironmentVariable("DEFAULT_DB_HOST"),
+              Environment.GetEnvironmentVariable("DEFAULT_DB_PORT"),
+              Environment.GetEnvironmentVariable("DEFAULT_DB_NAME"),
+              Environment.GetEnvironmentVariable("DEFAULT_DB_USER"),
+              Environment.GetEnvironmentVariable("DEFAULT_DB_PASSWORD")
+          );
+
 
             string authLinkConnectionString = string.Format(
                 Configuration.GetConnectionString("AuthLink"),
@@ -54,8 +68,13 @@ namespace Intex2
             );
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(authLinkConnectionString));
+            services.AddDbContext<egyptContext>(options =>
+                options.UseNpgsql(defaultConnectionString));
+
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
