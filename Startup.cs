@@ -1,4 +1,5 @@
 using Intex2.Data;
+using Intex2.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+
 
 namespace Intex2
 {
@@ -36,6 +38,25 @@ namespace Intex2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            string defaultConnectionString = string.Format(
+              Configuration.GetConnectionString("DefaultConnection"),
+              Environment.GetEnvironmentVariable("DEFAULT_DB_HOST"),
+              Environment.GetEnvironmentVariable("DEFAULT_DB_PORT"),
+              Environment.GetEnvironmentVariable("DEFAULT_DB_NAME"),
+              Environment.GetEnvironmentVariable("DEFAULT_DB_USER"),
+              Environment.GetEnvironmentVariable("DEFAULT_DB_PASSWORD")
+          );
+
+            string authLinkConnectionString = string.Format(
+                Configuration.GetConnectionString("AuthLink"),
+                Environment.GetEnvironmentVariable("AUTH_DB_HOST"),
+                Environment.GetEnvironmentVariable("AUTH_DB_PORT"),
+                Environment.GetEnvironmentVariable("AUTH_DB_NAME"),
+                Environment.GetEnvironmentVariable("AUTH_DB_USER"),
+                Environment.GetEnvironmentVariable("AUTH_DB_PASSWORD")
+            );
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential 
@@ -45,9 +66,15 @@ namespace Intex2
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(authLinkConnectionString));
+            services.AddDbContext<egyptContext>(options =>
+                options.UseNpgsql(defaultConnectionString));
+
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
