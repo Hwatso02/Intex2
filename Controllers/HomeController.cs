@@ -1,5 +1,7 @@
 ﻿using Intex2.Models;
+using Intex2.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -11,14 +13,61 @@ namespace Intex2.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly egyptContext _context;
         private readonly PredictionApiClient _predictionApiClient;
 
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, egyptContext context)
         {
             _logger = logger;
             _predictionApiClient = new PredictionApiClient();
+            _context = context;
+        }
+
+        public IActionResult TestConnection()
+        {
+            string testQuery = "SELECT 1";
+            try
+            {
+                using (var command = _context.Database.GetDbConnection().CreateCommand())
+                {
+                    command.CommandText = testQuery;
+                    _context.Database.OpenConnection();
+                    using (var result = command.ExecuteReader())
+                    {
+                        if (result.Read())
+                        {
+                            ViewData["TestResult"] = "Connection successful!";
+                        }
+                        else
+                        {
+                            ViewData["TestResult"] = "Connection failed: No results.";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewData["TestResult"] = $"Connection failed: {ex.Message}";
+            }
+            finally
+            {
+                _context.Database.CloseConnection();
+            }
+
+            return View();
+        }
+
+        public IActionResult DisplayBurials()
+        {
+            var viewModel = new BurialsViewModel
+            {
+                Burialmains = _context.BurialMain.ToList(),
+                Bodyanalysischarts = _context.BodyAnalysisChart.ToList()
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
