@@ -98,10 +98,11 @@ namespace Intex2
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //app.Use(async(context, next) => { 
-            //    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'");
-            //await next();
-            //});
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Content-Security-Policy", "img-src 'self'; script-src 'self'");
+                await next();
+            });
 
             app.UseEndpoints(endpoints =>
             {
