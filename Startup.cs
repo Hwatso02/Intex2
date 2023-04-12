@@ -36,13 +36,28 @@ namespace Intex2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var authConnectString = Configuration["ConnectionStrings:AuthLink"];
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(authConnectString));
+            string defaultConnectionString = string.Format(
+              Configuration.GetConnectionString("DefaultConnection"),
+              Environment.GetEnvironmentVariable("DEFAULT_DB_HOST"),
+              Environment.GetEnvironmentVariable("DEFAULT_DB_PORT"),
+              Environment.GetEnvironmentVariable("DEFAULT_DB_NAME"),
+              Environment.GetEnvironmentVariable("DEFAULT_DB_USER"),
+              Environment.GetEnvironmentVariable("DEFAULT_DB_PASSWORD")
+          );
 
-            var connectionString = Configuration["ConnectionStrings:DefaultConnection"];
+            string authLinkConnectionString = string.Format(
+                Configuration.GetConnectionString("AuthLink"),
+                Environment.GetEnvironmentVariable("AUTH_DB_HOST"),
+                Environment.GetEnvironmentVariable("AUTH_DB_PORT"),
+                Environment.GetEnvironmentVariable("AUTH_DB_NAME"),
+                Environment.GetEnvironmentVariable("AUTH_DB_USER"),
+                Environment.GetEnvironmentVariable("AUTH_DB_PASSWORD")
+            );
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(authLinkConnectionString));
             services.AddDbContext<egyptContext>(options =>
-                options.UseNpgsql(connectionString));
+                options.UseNpgsql(defaultConnectionString));
 
             //services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseSqlServer(
