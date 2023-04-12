@@ -18,4 +18,8 @@
     <PackageReference Include="Pythonnet" Version="3.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Prediction\" />
+  </ItemGroup>
+
 </Project>
