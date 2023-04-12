@@ -38,21 +38,11 @@ namespace Intex2
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential 
                 // cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 // requires using Microsoft.AspNetCore.Http;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            string defaultConnectionString = string.Format(
-                Configuration.GetConnectionString("DefaultConnection"),
-                Environment.GetEnvironmentVariable("DEFAULT_DB_HOST"),
-                Environment.GetEnvironmentVariable("DEFAULT_DB_PORT"),
-                Environment.GetEnvironmentVariable("DEFAULT_DB_NAME"),
-                Environment.GetEnvironmentVariable("DEFAULT_DB_USER"),
-                Environment.GetEnvironmentVariable("DEFAULT_DB_PASSWORD")
-            );
 
             string authLinkConnectionString = string.Format(
                 Configuration.GetConnectionString("AuthLink"),
