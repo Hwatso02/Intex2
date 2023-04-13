@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Intex2.Models
 {
-    public class ApplicationUser
+    public class ApplicationUser : IdentityUser
     {
-        public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
-        public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int UsernameChangeLimit { get; set; } = 10;
+        public byte[] ProfilePicture { get; set; }
     }
 }
