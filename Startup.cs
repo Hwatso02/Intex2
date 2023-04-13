@@ -127,9 +127,10 @@ namespace Intex2
 
             app.Use(async (context, next) =>
             {
-                context.Response.Headers.Add("Content-Security-Policy", "img-src 'self'; script-src 'self'");
+                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; img-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
                 await next();
             });
+
 
             app.UseEndpoints(endpoints =>
             {
