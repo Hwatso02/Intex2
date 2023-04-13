@@ -1,0 +1,115 @@
+﻿@{
+}
+@using Intex2.Models
+@model TestBurialsPageViewModel
+
+@{
+    bool showOnlyWithColor = ViewBag.ShowOnlyWithColor ?? false;
+    string sexFilter = ViewBag.SexFilter;
+    string textileFunctionFilter = ViewBag.TextileFunctionFilter;
+    string textileStructureFilter = ViewBag.TextileStructureFilter;
+}
+
+
+<body>
+    <div class="row m-1 p-1">
+        <div id="types" class="col-3">
+            <div>
+                <form asp-action="TestDisplayBurials" method="post">
+                    <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                    <input type="hidden" name="showOnlyWithColor" value="@(showOnlyWithColor ? "false" : "true")" />
+                    <button type="submit">
+                        @(showOnlyWithColor ? "Show All Burials" : "Show Only Burials with Color")
+                    </button>
+                </form>
+
+            </div>
+            <div>
+                <form asp-action="TestDisplayBurials" method="post">
+                    <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                    <input type="hidden" name="sexFilter" value="@(sexFilter == "M" ? "" : "M")" />
+                    <button type="submit">
+                        @(sexFilter == "M" ? "Show All Burials" : "Show Only Male Burials")
+                    </button>
+                </form>
+            </div>
+            <div>
+                <form asp-action="TestDisplayBurials" method="post">
+                    <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                    <input type="hidden" name="textileFunctionFilter" value="T" />
+                    <button type="submit">textileFunctionFilter</button>
+                </form>
+            </div>
+            <div>
+                <form asp-action="TestDisplayBurials" method="post">
+                    <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                    <input type="hidden" name="textileStructureFilter" value="T" />
+                    <button type="submit">textileStructureFilter</button>
+                </form>
+            </div>
+            <div>
+                <form asp-action="TestDisplayBurials" method="post">
+                    <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                    <input type="hidden" name="showDepthNotNull" value="T" />
+                    <button type="submit">Show Results With Depth</button>
+                </form>
+            </div>
+            <div>
+                <form asp-action="TestDisplayBurials" method="post">
+                    <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                    <input type="hidden" name="showAgeAtDeathNotNull" value="T" />
+                    <button type="submit">Show Results With Age At Death</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-9">
+            @foreach (var item in Model.TestBurials)
+            {
+            <div class="card card-outline-primary m-1 p-1">
+                <div class="bg-light p-1">
+                    <h4>Burial ID: @item.Id</h4>
+                    <!--Add Edit and Delete Options-->
+                    <a asp-controller="Home" asp-action="Edit">Edit</a>
+                    <a asp-controller="Home" asp-action="Delete">Delete</a>
+                </div>
+
+                <ul>
+                    <li>Burial Depth: @item.Depth</li>
+                    <li>Sex: @item.Sex</li>
+                    @*<li>Head Direction: @item.Headdirection</li>
+                <li>Hair Color: @item.Haircolor</li>*@
+                    <li>Age at Death: @item.AgeAtDeath</li>
+                    <li>Textile Color: @item.Color</li>
+                    <li>Textile Structure: @item.TextileStructure</li>
+                    <li>Textile Function: @item.TextileFunction</li>
+                    <li>Estimate Stature</li>
+                </ul>
+            </div>
+            <br />
+            <form method="post" asp-controller="Home" asp-action="MoreInfo">
+                <input type="hidden" name="itemId" value="@item.Id" />
+                <button type="submit" class="btn btn-success btn-sm float-right">More Info</button>
+            </form>
+
+
+            }
+        </div>
+    </div>
+</body>
+<div class="overflow-auto">
+    <div page-model="@Model.PageInfo" page-action="GetTestDisplayBurials" page-class="btn"
+         page-classes-enabled="true" page-class-normal="btn-outline-dark" page-class-selected="btn-primary"
+         class="btn-group pull-right m-1"
+         show-only-with-color="@ViewContext.HttpContext.Request.Query["showOnlyWithColor"]"
+         sex-filter="@ViewContext.HttpContext.Request.Query["sexFilter"]"
+         textile-function-filter="@ViewContext.HttpContext.Request.Query["textileFunctionFilter"].ToString()"
+         textile-structure-filter="@ViewContext.HttpContext.Request.Query["textileStructureFilter"].ToString()"
+         show-depth-not-null="@ViewContext.HttpContext.Request.Query["showDepthNotNull"].ToString()"
+         show-age-at-death-not-null="@ViewContext.HttpContext.Request.Query["showAgeAtDeathNotNull"].ToString()"></div>
+
+
+
+
+</div>
+
+
