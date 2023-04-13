@@ -240,5 +240,36 @@ namespace Intex2.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        //Crud Functions
+        //Add
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Add(BurialMain burial)
+        {
+            _context.BurialMain.Add(burial);
+            _context.SaveChanges();
+            return View("Confirmation", burial);
+        }
+        //Edit
+        [HttpGet]
+        public IActionResult Edit(int recordid)
+        {
+            var record = _context.BurialMain.Single(m => m.Id == recordid);
+
+            return View("Add", record);
+        }
+        [HttpPost]
+        public IActionResult Edit(BurialMain burial)
+        {
+            _context.BurialMain.Update(burial);
+            //_context.BurialMain.SaveChanges();
+
+            return RedirectToAction("DisplayBurials");
+        }
     }
 }
