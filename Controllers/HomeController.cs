@@ -498,19 +498,46 @@ namespace Intex2.Controllers
         }
         //Edit
         [HttpGet]
-        public IActionResult Edit(int recordid)
+        public IActionResult Edit(long recordid)
         {
-            var record = _context.BurialMain.Single(m => m.Id == recordid);
+            var record = _context.BurialMain.Find(recordid);
 
+            // Check if the record exists
+            if (record == null)
+            {
+                return NotFound();
+            }
             return View("Add", record);
         }
         [HttpPost]
         public IActionResult Edit(BurialMain burial)
         {
             _context.BurialMain.Update(burial);
-            //_context.BurialMain.SaveChanges();
+            _context.SaveChanges();
 
             return RedirectToAction("DisplayBurials");
         }
+        //Delete baby
+        [HttpGet]
+        public IActionResult Delete(long recordid)
+        {
+            var burial = _context.BurialMain.Find(recordid);
+
+            return View(burial);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirmed(long recordid)
+        {
+            var burial = _context.BurialMain.Find(recordid);
+
+
+            _context.BurialMain.Remove(burial);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(DisplayBurials));
+        }
+
+
     }
 }
