@@ -9,13 +9,14 @@
             filters later
         </div>
         <div class="col-9">
+            <a asp-area="" asp-controller="Home" asp-action="Add">Add</a>
             @foreach (var item in Model.Burialmains)
             {
                 <div class="card card-outline-primary m-1 p-1">
                     <div class="bg-light p-1">
                         <h4>Burial ID: @item.Id</h4>
                         <!--Add Edit and Delete Options-->
-                        <a asp-controller="Home" asp-action="Edit">Edit</a>
+                        <a asp-controller="Home" asp-action="Edit" asp-route-recordid="@item.Id">Edit</a>
                         <a asp-controller="Home" asp-action="Delete">Delete</a>
                     </div>
                     <ul>

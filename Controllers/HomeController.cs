@@ -499,6 +499,11 @@ namespace Intex2.Controllers
             return View();
         }
 
+        public IActionResult Edit()
+        {
+            return View();
+        }
+
         public IActionResult Users()
         {
             return View();
@@ -514,5 +519,63 @@ namespace Intex2.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        //Crud Functions
+        //Add
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Add(BurialMain burial)
+        {
+            _context.BurialMain.Add(burial);
+            _context.SaveChanges();
+            return View("Confirmation", burial);
+        }
+        //Edit
+        [HttpGet]
+        public IActionResult Edit(long recordid)
+        {
+            var record = _context.BurialMain.Find(recordid);
+
+            // Check if the record exists
+            if (record == null)
+            {
+                return NotFound();
+            }
+            return View("Add", record);
+        }
+        [HttpPost]
+        public IActionResult Edit(BurialMain burial)
+        {
+            _context.BurialMain.Update(burial);
+            _context.SaveChanges();
+
+            return RedirectToAction("DisplayBurials");
+        }
+        //Delete baby
+        [HttpGet]
+        public IActionResult Delete(long recordid)
+        {
+            var burial = _context.BurialMain.Find(recordid);
+
+            return View(burial);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirmed(long recordid)
+        {
+            var burial = _context.BurialMain.Find(recordid);
+
+
+            _context.BurialMain.Remove(burial);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(DisplayBurials));
+        }
+
+
     }
 }

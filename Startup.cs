@@ -65,15 +65,26 @@ namespace Intex2
             );
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(authLinkConnectionString));
+    options.UseNpgsql(authLinkConnectionString));
+
             services.AddDbContext<egyptContext>(options =>
                 options.UseNpgsql(defaultConnectionString));
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 20;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultUI()
+            .AddDefaultTokenProviders();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
 
@@ -115,6 +126,12 @@ namespace Intex2
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; img-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
+                await next();
+            });
 
             app.UseEndpoints(endpoints =>
             {
