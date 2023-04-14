@@ -7,95 +7,113 @@
 
 <h1>Enter information about the dig to predict the direction of the head!</h1>
 <br /><br />
-<div>
-    <form method="post" asp-action="MakePrediction">
-        <label asp-for="squarenorthsouth">SquareNorthSouth:</label>
-        <input type="number" asp-for="squarenorthsouth" step="1"><br />
-        <label asp-for="depth">Depth:</label>
-        <input type="number" asp-for="depth" step="1"><br />
-        <label asp-for="southtohead">SouthtoHead:</label>
-        <input type="number" asp-for="southtohead" step="1"><br />
-        <label asp-for="squareeastwest">squareeastwest:</label>
-        <input type="number" asp-for="squareeastwest" step="1"><br />
-        <label asp-for="westtohead">westtohead:</label>
-        <input type="number" asp-for="westtohead" step="1"><br />
-        <label asp-for="westtofeet">WesttoFeet:</label>
-        <input type="number" asp-for="westtofeet" step="1"><br />
-        <label asp-for="southtofeet">SouthtoFeet:</label>
-        <input type="number" asp-for="southtofeet" step="1"><br />
-        <label asp-for="northsouth_N">Northsouth_N:</label>
-        <select asp-for="northsouth_N" asp-format="{0:d}">
-            <option value="1">Yes</option>
-            <option value="0" selected>No</option>
-        </select><br />
-        <label asp-for="eastwest_E">Eastwest_E:</label>
-        <select asp-for="eastwest_E" asp-format="{0:d}">
-            <option value="1">Yes</option>
-            <option value="0" selected>No</option>
-        </select><br />
-        <label asp-for="eastwest_W">Eastwest_W:</label>
-        <select asp-for="eastwest_W" asp-format="{0:d}">
-            <option value="1">Yes</option>
-            <option value="0" selected>No</option>
-        </select><br />
-        <label asp-for="wrapping_B">wrapping_B:</label>
-        <select asp-for="wrapping_B" asp-format="{0:d}">
-            <option value="1">Yes</option>
-            <option value="0" selected>No</option>
-        </select><br />
-        <label asp-for="wrapping_H">wrapping_H:</label>
-        <select asp-for="wrapping_H" asp-format="{0:d}">
-            <option value="1">Yes</option>
-            <option value="0" selected>No</option>
-        </select><br />
-        <label asp-for="wrapping_S">wrapping_S:</label>
-        <select asp-for="wrapping_S" asp-format="{0:d}">
-            <option value="1">Yes</option>
-            <option value="0" selected>No</option>
-        </select><br />
-        <label asp-for="wrapping_W">wrapping_W:</label>
-        <select asp-for="wrapping_W" asp-format="{0:d}">
-            <option value="1">Yes</option>
-            <option value="0" selected>No</option>
-        </select><br />
-        <label asp-for="samplescollected_false">samplescollected_false:</label>
-        <select asp-for="samplescollected_false" asp-format="{0:d}">
-            <option value="1">Yes</option>
-            <option value="0" selected>No</option>
-        </select><br />
+      <div class="container">
+          <div class="card border-primary">
+              <div class="card-body">
+                  <form method="post" asp-action="MakePrediction">
+                      <div class="row">
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label asp-for="squarenorthsouth">SquareNorthSouth:</label>
+                                  <input type="number" asp-for="squarenorthsouth" step="1" class="form-control">
+                              </div>
+                              <div class="form-group">
+                                  <label asp-for="depth">Depth:</label>
+                                  <input type="number" asp-for="depth" step="1" class="form-control">
+                              </div>
+                              <div class="form-group">
+                                  <label asp-for="southtohead">SouthtoHead:</label>
+                                  <input type="number" asp-for="southtohead" step="1" class="form-control">
+                              </div>
+                              <div class="form-group">
+                                  <label asp-for="squareeastwest">squareeastwest:</label>
+                                  <input type="number" asp-for="squareeastwest" step="1" class="form-control">
+                              </div>
+                              <div class="form-group">
+                                  <label asp-for="westtohead">westtohead:</label>
+                                  <input type="number" asp-for="westtohead" step="1" class="form-control">
+                              </div>
+                              <div class="form-group">
+                                  <label asp-for="westtofeet">WesttoFeet:</label>
+                                  <input type="number" asp-for="westtofeet" step="1" class="form-control">
+                              </div>
+                              <div class="form-group">
+                                  <label asp-for="southtofeet">SouthtoFeet:</label>
+                                  <input type="number" asp-for="southtofeet" step="1" class="form-control">
+                              </div>
+                          </div>
 
-        <label asp-for="samplescollected_true">samplescollected_true:</label>
-        <select asp-for="samplescollected_true" asp-format="{0:d}">
-            <option value="1">Yes</option>
-            <option value="0" selected>No</option>
-        </select><br />
-        <label asp-for="area_NE">area_NE:</label>
-        <select asp-for="area_NE" asp-format="{0:d}">
-            <option value="1">Yes</option>
-            <option value="0" selected>No</option>
-        </select><br />
-        <label asp-for="area_NNW">area_NNW:</label>
-        <select asp-for="area_NNW" asp-format="{0:d}">
-            <option value="1">Yes</option>
-            <option value="0" selected>No</option>
-        </select><br />
-        <label asp-for="area_NW">area_NW:</label>
-        <select asp-for="area_NW" asp-format="{0:d}">
-            <option value="1">Yes</option>
-            <option value="0" selected>No</option>
-        </select><br />
-        <label asp-for="area_SE">area_SE:</label>
-        <select asp-for="area_SE" asp-format="{0:d}">
-            <option value="1">Yes</option>
-            <option value="0" selected>No</option>
-        </select><br />
-        <label asp-for="area_SW">area_SW:</label>
-        <select asp-for="area_SW" asp-format="{0:d}">
-            <option value="1">Yes</option>
-            <option value="0" selected>No</option>
-        </select><br />
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label asp-for="northsouth_N">Northsouth_N:</label>
+                                  <select asp-for="northsouth_N" asp-format="{0:d}" class="form-control">
+                                      <option value="1">Yes</option>
+                                      <option value="0" selected>No</option>
+                                  </select>
+                              </div>
+                              <div class="form-group">
+                                  <label asp-for="eastwest_E">Eastwest_E:</label>
+                                  <select asp-for="eastwest_E" asp-format="{0:d}" class="form-control">
+                                      <option value="1">Yes</option>
+                                      <option value="0" selected>No</option>
+                                  </select>
+                              </div>
+                              <div class="form-group">
+                                  <label asp-for="eastwest_W">Eastwest_W:</label>
+                                  <select asp-for="eastwest_W" asp-format="{0:d}" class="form-control">
+                                      <option value="1">Yes</option>
+                                      <option value="0" selected>No</option>
+                                  </select>
+                              </div>
+                              <div class="form-group">
+                                  <label asp-for="wrapping_B">wrapping_B:</label>
+                                  <select asp-for="wrapping_B" asp-format="{0:d}" class="form-control">
+                                      <option value="1">Yes</option>
+                                      <option value="0" selected>No</option>
+                                  </select>
+                              </div>
+                              <div class="form-group">
+                                  <label asp-for="wrapping_H">wrapping_H:</label>
+                                  <select asp-for="wrapping_H" asp-format="{0:d}" class="form-control">
+                                      <option value="1">Yes</option>
+                                      <option value="0" selected>No</option>
+                                  </select>
+                              </div>
+                              <div class="form-group">
+                                  <label asp-for="wrapping_S">wrapping_S:</label>
+                                  <select asp-for="wrapping_S" asp-format="{0:d}" class="form-control">
+                                      <option value="1">Yes</option>
+                                      <option value="0" selected>No</option>
+                                  </select>
+                              </div>
+                              <div class="form-group">
+                                  <label asp-for="wrapping_W">wrapping_W:</label>
+                                  <select asp-for="wrapping_W" asp-format="{0:d}" class="form-control">
+                                      <option value="1">Yes</option>
+                                      <option value="0" selected>No</option>
+                                  </select>
+                              </div>
+                              <div class="form-group">
+                                  <label asp-for="samplescollected_false">samplescollected_false:</label>
+                                  <select asp-for="samplescollected_false" asp-format="{0:d}" class="form-control">
+                                      <option value="1">Yes</option>
+                                      <option value="0" selected>No</option>
+                                  </select>
+                              </div>
+                              <div class="form-group">
+                                  <label asp-for="samplescollected_true">samplescollected_true:</label>
+                                  <select asp-for="samplescollected_true" asp-format="{0:d}" class="form-control">
+                                      <option value="1">Yes</option>
+                                      <option value="0" selected>No</option>
+                                  </select>
 
-        <button type="submit" class="btn btn-primary">Make Prediction</button>
-    </form>
+                              </div>
+                              </div>
+                          </div>
+                              <br />
 
-</div>
+                              <button type="submit" class="btn btn-primary">Make Prediction</button>
+</form>
+              </div>
+          </div>
+      </div>
