@@ -6,7 +6,8 @@
 @model MoreInfoViewModel
 <div class="card card-outline-primary m-1 p-1">
     <div class="bg-light p-1">
-        <h4>Basic Info for Burial ID: @(Model?.Id)</h4>
+        <h4>Basic Info for Burial ID: @(Model.CustomBurialId)</h4>
+        
         <!--Add Edit and Delete Options-->
         <a asp-controller="Home" asp-action="Edit">Edit</a>
         <a asp-controller="Home" asp-action="Delete">Delete</a>
@@ -21,7 +22,45 @@
         <li>Textile Color: @(Model?.Color ?? "N/A")</li>
         <li>Textile Structure: @(Model?.TextileStructure ?? "N/A")</li>
         <li>Textile Function: @(Model?.TextileFunction ?? "N/A")</li>
-        <li>Estimate Stature</li>
+        <li>Alternate ID: @(Model?.Id)</li>
+    </ul>
+    <div class="bg-light p-1">
+        <h4>Yarn Manipulation Info:</h4>
+        @if (Model.YarnManipulations.Count == 0)
+        {
+            <p>No Yarn Data For This Record</p>
+        }
+    </div>
+    <ul>
+        @foreach (var ym in Model.YarnManipulations)
+        {
+
+            <li>Component: @ym.Component</li>
+            <li>Material: @ym.Material</li>
+            <li>Direction: @ym.Direction</li>
+            <li>Count: @ym.Count</li>
+            <li>Ply: @ym.Ply</li>
+
+
+        }
     </ul>
 </div>
+
+<h2>Yarn Manipulation Images</h2>
+@if (Model.YarnManipulations.Count == 0)
+{
+    <p>No Yarn Images For This Record</p>
+}
+<div class="row">
+    @foreach (var photo in Model.PhotoDataList)
+    {
+        <p>Description: @photo.Description</p><br />
+        <div class="col-md-4">
+            <img src="@photo.Url" class="img-fluid" alt="Image from PhotoData" />
+        </div>
+    }
+</div>
+
+
+
 <br />

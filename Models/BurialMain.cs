@@ -44,5 +44,12 @@ namespace Intex2.Models
         public string Fieldbookexcavationyear { get; set; }
         public string Clusternumber { get; set; }
         public string Shaftnumber { get; set; }
+        public string CustomBurialId
+        {
+            get
+            {
+                return Squarenorthsouth + "_" + Northsouth + "_" + Squareeastwest + "_" + Eastwest + "_" +  Area + "_" + Burialnumber;
+            }
+        }
     }
 }
