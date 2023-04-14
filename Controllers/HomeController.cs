@@ -553,7 +553,7 @@ namespace Intex2.Controllers
             _context.BurialMain.Update(burial);
             _context.SaveChanges();
 
-            return RedirectToAction("DisplayBurials");
+            return RedirectToAction("GetTestDisplayBurials");
         }
         //Delete baby
         [HttpGet]

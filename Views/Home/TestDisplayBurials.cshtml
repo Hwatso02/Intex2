@@ -63,36 +63,35 @@
             </div>
         </div>
         <div class="col-9">
+            <a asp-area="" asp-controller="Home" asp-action="Add" class=" btn btn-primary">Add</a>
             @foreach (var item in Model.TestBurials)
             {
-            <div class="card card-outline-primary m-1 p-1">
-                <div class="bg-light p-1">
-                    <h4>Burial ID: @item.CustomBurialId</h4>
+                <div class="card card-outline-primary m-1 p-1">
+                    <div class="bg-light p-1">
+                        <h4>Burial ID: @item.CustomBurialId</h4><br />
 
-                    <!--Add Edit and Delete Options-->
-                    <a asp-controller="Home" asp-action="Edit">Edit</a>
-                    <a asp-controller="Home" asp-action="Delete">Delete</a>
-                    <form method="post" asp-controller="Home" asp-action="MoreInfo">
-                        <input type="hidden" name="itemId" value="@item.Id" />
-                        <button type="submit" class="btn btn-success float-right">More Info</button>
-                    </form>
+                        <!--Add Edit and Delete Options-->
+                        <a asp-controller="Home" asp-action="Edit" asp-route-recordid="@item.Id" class="btn btn-primary">Edit</a>
+                        <a asp-controller="Home" asp-action="Delete" class="btn btn-primary">Delete</a>
+                        <form method="post" asp-controller="Home" asp-action="MoreInfo">
+                            <input type="hidden" name="itemId" value="@item.Id" />
+                            <button type="submit" class="btn btn-success float-right">More Info</button>
+                        </form>
+                    </div>
+
+                    <ul>
+                        <li>Burial Depth: @item.Depth</li>
+                        <li>Sex: @item.Sex</li>
+                        <li>Age at Death: @item.AgeAtDeath</li>
+                        <li>Textile Color: @item.Color</li>
+                        <li>Textile Structure: @item.TextileStructure</li>
+                        <li>Textile Function: @item.TextileFunction</li>
+                        <li>Alternate ID: @item.Id</li>
+                    </ul>
+
                 </div>
+                <br />
 
-                <ul>
-                    <li>Burial Depth: @item.Depth</li>
-                    <li>Sex: @item.Sex</li>
-                    @*<li>Head Direction: @item.Headdirection</li>
-        <li>Hair Color: @item.Haircolor</li>*@
-                    <li>Age at Death: @item.AgeAtDeath</li>
-                    <li>Textile Color: @item.Color</li>
-                    <li>Textile Structure: @item.TextileStructure</li>
-                    <li>Textile Function: @item.TextileFunction</li>
-                    <li>Alternate ID: @item.Id</li>
-                </ul>
-                
-            </div>
-            <br />
-          
 
 
             }
