@@ -105,9 +105,10 @@ namespace Intex2
         {
             app.Use(async (context, next) =>
             {
-                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; img-src 'self' https://cwadmin.byu.edu; script-src 'self'; style-src 'self' 'unsafe-inline';");
+                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; img-src 'self' https://cwadmin.byu.edu 'unsafe-inline'; script-src 'self'; style-src 'self' 'unsafe-inline';");
                 await next();
             });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -126,12 +127,6 @@ namespace Intex2
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.Use(async (context, next) =>
-            {
-                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; img-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
-                await next();
-            });
 
             app.UseEndpoints(endpoints =>
             {
