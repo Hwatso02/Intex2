@@ -363,7 +363,7 @@ namespace Intex2.Controllers
             // For example, pass the prediction to a view or return it as JSON
             return View("Predict", prediction);
         }
-
+        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -492,6 +492,7 @@ namespace Intex2.Controllers
         //Crud Functions
         //Add
         [HttpGet]
+        [Authorize]
         public IActionResult Add()
         {
             return View();
