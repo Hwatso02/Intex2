@@ -537,7 +537,7 @@ namespace Intex2.Controllers
             {
                 return NotFound();
             }
-            return View("Add", record);
+            return View("EditRec", record);
         }
         [HttpPost]
         public IActionResult Edit(BurialMain burial)
