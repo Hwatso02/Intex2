@@ -17,6 +17,9 @@ namespace Intex2.Models.ViewModels
         public string Component { get; set; }
         public string Material { get; set; }
         public string Direction { get; set; }
+        public string Fieldbookexcavationyear { get; set; }
+        public string Clusternumber { get; set; }
+        public string Shaftnumber { get; set; }
         public string Count { get; set; }
         public string Ply { get; set; }
         public string HairColor { get; set; }

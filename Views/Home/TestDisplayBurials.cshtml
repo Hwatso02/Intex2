@@ -8,6 +8,9 @@
     string sexFilter = ViewBag.SexFilter;
     string textileFunctionFilter = ViewBag.TextileFunctionFilter;
     string textileStructureFilter = ViewBag.TextileStructureFilter;
+    string showFieldbook = ViewBag.ShowFieldbook;
+    string showCluster = ViewBag.ShowCluster;
+    string showShaftNum = ViewBag.ShowShaftNum;
 }
 <style>
     .card1 {
@@ -94,6 +97,27 @@
                                 <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">Show All Burials With Age At Death</button>
                             </form>
                         </div>
+                        <div>
+                            <form asp-action="TestDisplayBurials" method="post">
+                                <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                                <input type="hidden" name="showFieldbook" value="T" />
+                                <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">Show All Burials With Fieldbook Excavation Year</button>
+                            </form>
+                        </div>
+                        <div>
+                            <form asp-action="TestDisplayBurials" method="post">
+                                <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                                <input type="hidden" name="showCluster" value="T" />
+                                <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">Show All Burials With Cluster Number</button>
+                            </form>
+                        </div>
+                        <div>
+                            <form asp-action="TestDisplayBurials" method="post">
+                                <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                                <input type="hidden" name="showShaftNum" value="T" />
+                                <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">Show All Burials With Shaft Number</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div><br />
@@ -126,6 +150,9 @@
                     <li class="list-group-item"><b>Textile Structure:</b> @item.TextileStructure</li>
                     <li class="list-group-item"><b>Textile Function:</b> @item.TextileFunction</li>
                     <li class="list-group-item"><b>Alternate ID:</b> @item.Id</li>
+                    <li class="list-group-item"><b>Fieldbookexcavationyear:</b> @item.Fieldbookexcavationyear</li>
+                    <li class="list-group-item"><b>Clusternumber:</b> @item.Clusternumber</li>
+                    <li class="list-group-item"><b>Shaftnumber:</b> @item.Shaftnumber</li>
                 </ul>
 
 
@@ -148,7 +175,10 @@
          textile-function-filter="@ViewContext.HttpContext.Request.Query["textileFunctionFilter"].ToString()"
          textile-structure-filter="@ViewContext.HttpContext.Request.Query["textileStructureFilter"].ToString()"
          show-depth-not-null="@ViewContext.HttpContext.Request.Query["showDepthNotNull"].ToString()"
-         show-age-at-death-not-null="@ViewContext.HttpContext.Request.Query["showAgeAtDeathNotNull"].ToString()"></div>
+         show-age-at-death-not-null="@ViewContext.HttpContext.Request.Query["showAgeAtDeathNotNull"].ToString()"
+         show-fieldbook="@ViewContext.HttpContext.Request.Query["showFieldbook"].ToString()"
+         show-shaft-num="@ViewContext.HttpContext.Request.Query["showShaftNum"].ToString()"
+         show-cluster="@ViewContext.HttpContext.Request.Query["showCluster"].ToString()"></div>
 
 
 

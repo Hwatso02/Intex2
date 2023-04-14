@@ -9,8 +9,8 @@
         <h4>Basic Info for Burial ID: @(Model.CustomBurialId)</h4>
 
         <!--Add Edit and Delete Options-->
-        <a asp-controller="Home" asp-action="Edit">Edit</a>
-        <a asp-controller="Home" asp-action="Delete">Delete</a>
+        <a asp-controller="Home" asp-action="Edit" class="btn btn-primary">Edit</a>
+        <a asp-controller="Home" asp-action="Delete" class="btn btn-primary">Delete</a>
     </div>
 
     <ul>
@@ -21,6 +21,9 @@
         <li class="list-group-item"><b>Textile Structure:</b> @(Model?.TextileStructure ?? "N/A")</li>
         <li class="list-group-item"><b>Textile Function:</b> @(Model?.TextileFunction ?? "N/A")</li>
         <li class="list-group-item"><b>Alternate ID:</b> @(Model?.Id)</li>
+        <li class="list-group-item"><b>Fieldbookexcavationyear:</b> @(Model?.Fieldbookexcavationyear ?? "N/A")</li>
+        <li class="list-group-item"><b>Clusternumber:</b> @(Model?.Clusternumber ?? "N/A")</li>
+        <li class="list-group-item"><b>Shaftnumber:</b> @(Model?.Shaftnumber ?? "N/A")</li>
     </ul>
     <div class="bg-light p-1">
         <h4>Yarn Manipulation Info:</h4>

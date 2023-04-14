@@ -32,6 +32,10 @@ namespace Intex2.Infrastructure
         public string TextileStructureFilter { get; set; }
         public string ShowDepthNotNull { get; set; }
         public string ShowAgeAtDeathNotNull { get; set; }
+        public string ShowFieldbook { get; set; }
+        public string ShowShaftNum { get; set; }
+        public string ShowCluster { get; set; }
+
 
         public override void Process(TagHelperContext thc, TagHelperOutput tho)
         {
@@ -47,7 +51,11 @@ namespace Intex2.Infrastructure
                     textileFunctionFilter = TextileFunctionFilter,
                     textileStructureFilter = TextileStructureFilter,
                     showDepthNotNull = ShowDepthNotNull,
-                    showAgeAtDeathNotNull = ShowAgeAtDeathNotNull
+                    showAgeAtDeathNotNull = ShowAgeAtDeathNotNull,
+                    showFieldbook = ShowFieldbook,
+                    showShaftNum = ShowShaftNum,
+                    showCluster = ShowCluster
+
                 });
 
                 if (PageClassesEnabled)
