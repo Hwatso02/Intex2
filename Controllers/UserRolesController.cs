@@ -21,6 +21,7 @@ namespace Intex2.Controllers
         }
 
         //[Authorize(Roles = "SuperAdmin")]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.ToListAsync();

@@ -384,7 +384,7 @@ namespace Intex2.Controllers
             // For example, pass the prediction to a view or return it as JSON
             return View("Predict", prediction);
         }
-        [Authorize]
+
         public IActionResult Index()
         {
             return View();
@@ -549,6 +549,7 @@ namespace Intex2.Controllers
         }
         //Delete baby
         [HttpGet]
+        [Authorize]
         public IActionResult Delete(long recordid)
         {
             var burial = _context.BurialMain.Find(recordid);
