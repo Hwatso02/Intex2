@@ -15,5 +15,8 @@ namespace Intex2.Models.ViewModels
         public string Color { get; set; }
         public string TextileStructure { get; set; }
         public string CustomBurialId { get; set; }
+        public string Fieldbookexcavationyear { get; set; }
+        public string Clusternumber { get; set; }
+        public string Shaftnumber { get; set; }
     }
 }
