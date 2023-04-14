@@ -29,7 +29,7 @@ namespace Intex2.Data
             builder.HasDefaultSchema("Identity");
             builder.Entity<IdentityUser>(entity =>
             {
-                entity.ToTable(name: "User");
+                entity.Ignore(e => e.TwoFactorEnabled);
             });
             builder.Entity<IdentityRole>(entity =>
             {

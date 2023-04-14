@@ -11,12 +11,13 @@
 }
 <style>
     .card1 {
-        border: 3px solid #ccc;
+        border: 6px solid #ccc;
         border-radius: 5px;
         padding: 10px;
         display: inline-flex;
         flex-wrap: wrap;
         justify-content: left;
+        margin-right: 20px;
     }
 
     .button-container {
@@ -29,110 +30,113 @@
     }
 </style>
 <body>
-    <div class="row m-1 p-1">
+    <div class="row no-gutters m-1 p-1">
         <div id="types" class="col-3">
             <div class="container">
-                
-                    <div class="card1">
-                        <div class="button-container">
-                            <div>
-                                <form asp-action="TestDisplayBurials" method="post">
-                                    <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
-                                    <input type="hidden" name="showOnlyWithColor" value="@(showOnlyWithColor ? "false" : "true")" />
-                                    <button type="submit" class="btn btn-info btn btn-sm btn-custom" style="margin: 5px;">
-                                        @(showOnlyWithColor ? "Show All Burials" : "Show Only Burials with Color")
-                                    </button>
-                                </form>
+
+                <div class="card1">
+                    <div class="button-container">
+                        <div>
+                            <form asp-action="TestDisplayBurials" method="post">
+                                <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                                <input type="hidden" name="showOnlyWithColor" value="@(showOnlyWithColor ? "false" : "true")" />
+                                <button type="submit" class="btn btn-info btn btn-sm btn-custom" style="margin: 5px;">
+                                    @(showOnlyWithColor ? "Show All Burials" : "Show Only Burials with Color")
+                                </button>
+                            </form>
 
 
 
-                            </div>
-                            <div>
-                                <form asp-action="TestDisplayBurials" method="post">
-                                    <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
-                                    <input type="hidden" name="sexFilter" value="@(sexFilter == "M" ? "" : "M")" />
-                                    <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">
-                                        @(sexFilter == "M" ? "Show All Burials" : "Show Only Male Burials")
-                                    </button>
-                                </form>
-                            </div>
-                            <div>
-                                <form asp-action="TestDisplayBurials" method="post">
-                                    <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
-                                    <input type="hidden" name="sexFilter" value="@(sexFilter == "F" ? "" : "F")" />
-                                    <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">
-                                        @(sexFilter == "M" ? "Show All Burials" : "Show Only Female Burials")
-                                    </button>
-                                </form>
-                            </div>
-                            <div>
-                                <form asp-action="TestDisplayBurials" method="post">
-                                    <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
-                                    <input type="hidden" name="textileFunctionFilter" value="T" />
-                                    <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">Show All Textile Functions</button>
-                                </form>
-                            </div>
-                            <div>
-                                <form asp-action="TestDisplayBurials" method="post">
-                                    <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
-                                    <input type="hidden" name="textileStructureFilter" value="T" />
-                                    <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">Show All Textile Structures</button>
-                                </form>
-                            </div>
-                            <div>
-                                <form asp-action="TestDisplayBurials" method="post">
-                                    <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
-                                    <input type="hidden" name="showDepthNotNull" value="T" />
-                                    <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">Show All Burials With Depth</button>
-                                </form>
-                            </div>
-                            <div>
-                                <form asp-action="TestDisplayBurials" method="post">
-                                    <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
-                                    <input type="hidden" name="showAgeAtDeathNotNull" value="T" />
-                                    <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">Show All Burials With Age At Death</button>
-                                </form>
-                            </div>
+                        </div>
+                        <div>
+                            <form asp-action="TestDisplayBurials" method="post">
+                                <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                                <input type="hidden" name="sexFilter" value="@(sexFilter == "M" ? "" : "M")" />
+                                <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">
+                                    @(sexFilter == "M" ? "Show All Burials" : "Show Only Male Burials")
+                                </button>
+                            </form>
+                        </div>
+                        <div>
+                            <form asp-action="TestDisplayBurials" method="post">
+                                <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                                <input type="hidden" name="sexFilter" value="@(sexFilter == "F" ? "" : "F")" />
+                                <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">
+                                    @(sexFilter == "M" ? "Show All Burials" : "Show Only Female Burials")
+                                </button>
+                            </form>
+                        </div>
+                        <div>
+                            <form asp-action="TestDisplayBurials" method="post">
+                                <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                                <input type="hidden" name="textileFunctionFilter" value="T" />
+                                <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">Show All Textile Functions</button>
+                            </form>
+                        </div>
+                        <div>
+                            <form asp-action="TestDisplayBurials" method="post">
+                                <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                                <input type="hidden" name="textileStructureFilter" value="T" />
+                                <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">Show All Textile Structures</button>
+                            </form>
+                        </div>
+                        <div>
+                            <form asp-action="TestDisplayBurials" method="post">
+                                <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                                <input type="hidden" name="showDepthNotNull" value="T" />
+                                <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">Show All Burials With Depth</button>
+                            </form>
+                        </div>
+                        <div>
+                            <form asp-action="TestDisplayBurials" method="post">
+                                <input type="hidden" name="pageNum" value="@Model.PageInfo.CurrentPage" />
+                                <input type="hidden" name="showAgeAtDeathNotNull" value="T" />
+                                <button type="submit" class="btn btn-info btn-sm btn-custom" style="margin: 5px;">Show All Burials With Age At Death</button>
+                            </form>
                         </div>
                     </div>
                 </div>
+            </div><br />
+            <a asp-area="" asp-controller="Home" asp-action="Add" class=" btn btn-primary" style="width: 220px; margin-right: 20px;">Add New Burial Record</a>
+
+        </div>
+
+        <div class="col-9">
+
+            @foreach (var item in Model.TestBurials)
+            {
+            <div class="card card-outline-primary m-1 p-1" style="border: 3px solid #ccc; border-radius: 5px;">
+                <div class="card-header">
+                    <h4>Burial ID: @item.CustomBurialId</h4>
+
+                    <a asp-controller="Home" asp-action="Edit" asp-route-recordid="@item.Id" class="btn btn-primary">Edit</a>
+                    <a asp-controller="Home" asp-action="Delete" class="btn btn-primary">Delete</a>
+                    <form method="post" asp-controller="Home" asp-action="MoreInfo">
+                        <input type="hidden" name="itemId" value="@item.Id" />
+                        <button type="submit" class="btn btn-success float-right">More Info</button>
+                    </form>
+                </div>
+
+                <ul>
+                    <li class="list-group-item"><b>Burial Depth:</b> @item.Depth</li>
+                    <li class="list-group-item"><b>Sex:</b> @item.Sex</li>
+
+                    <li class="list-group-item"><b>Age at Death:</b> @item.AgeAtDeath</li>
+                    <li class="list-group-item"><b>Textile Color:</b> @item.Color</li>
+                    <li class="list-group-item"><b>Textile Structure:</b> @item.TextileStructure</li>
+                    <li class="list-group-item"><b>Textile Function:</b> @item.TextileFunction</li>
+                    <li class="list-group-item"><b>Alternate ID:</b> @item.Id</li>
+                </ul>
+
+
             </div>
-                    <div class="col-9">
-                      <a asp-area="" asp-controller="Home" asp-action="Add" class=" btn btn-primary">Add</a>
-                        @foreach (var item in Model.TestBurials)
-                        {
-                            <div class="card card-outline-primary m-1 p-1">
-                                <div class="bg-light p-1">
-                                    <h4>Burial ID: @item.CustomBurialId</h4>
-
-                                   <a asp-controller="Home" asp-action="Edit" asp-route-recordid="@item.Id" class="btn btn-primary">Edit</a>
-                                   <a asp-controller="Home" asp-action="Delete" class="btn btn-primary">Delete</a>
-                                    <form method="post" asp-controller="Home" asp-action="MoreInfo">
-                                        <input type="hidden" name="itemId" value="@item.Id" />
-                                        <button type="submit" class="btn btn-success float-right">More Info</button>
-                                    </form>
-                                </div>
-
-                                <ul>
-                                    <li>Burial Depth: @item.Depth</li>
-                                    <li>Sex: @item.Sex</li>
-                                  
-                                    <li>Age at Death: @item.AgeAtDeath</li>
-                                    <li>Textile Color: @item.Color</li>
-                                    <li>Textile Structure: @item.TextileStructure</li>
-                                    <li>Textile Function: @item.TextileFunction</li>
-                                    <li>Alternate ID: @item.Id</li>
-                                </ul>
-
-
-                            </div>
-                            <br />
+            <br />
 
 
 
-                        }
-                    </div>
-            </div>
+            }
+        </div>
+    </div>
                 
 </body>
 <div class="overflow-auto">

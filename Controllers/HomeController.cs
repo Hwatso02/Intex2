@@ -1,5 +1,6 @@
 ﻿using Intex2.Models;
 using Intex2.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -504,6 +505,7 @@ namespace Intex2.Controllers
         }
         //Edit
         [HttpGet]
+        [Authorize]
         public IActionResult Edit(long recordid)
         {
             var record = _context.BurialMain.Find(recordid);

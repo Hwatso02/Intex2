@@ -4,25 +4,23 @@
 @{
 }
 @model MoreInfoViewModel
-<div class="card card-outline-primary m-1 p-1">
+<div class="card card-outline-primary m-1 p-1" style="border: 3px solid #ccc; border-radius: 5px;">
     <div class="bg-light p-1">
         <h4>Basic Info for Burial ID: @(Model.CustomBurialId)</h4>
-        
+
         <!--Add Edit and Delete Options-->
         <a asp-controller="Home" asp-action="Edit">Edit</a>
         <a asp-controller="Home" asp-action="Delete">Delete</a>
     </div>
 
     <ul>
-        <li>Burial Depth: @(Model?.Depth ?? "N/A")</li>
-        <li>Sex: @(Model?.Sex ?? "N/A")</li>
-        @*<li>Head Direction: @item.Headdirection</li>
-            <li>Hair Color: @item.Haircolor</li>*@
-        <li>Age at Death: @(Model?.AgeAtDeath ?? "N/A")</li>
-        <li>Textile Color: @(Model?.Color ?? "N/A")</li>
-        <li>Textile Structure: @(Model?.TextileStructure ?? "N/A")</li>
-        <li>Textile Function: @(Model?.TextileFunction ?? "N/A")</li>
-        <li>Alternate ID: @(Model?.Id)</li>
+        <li class="list-group-item"><b>Burial Depth:</b> @(Model?.Depth ?? "N/A")</li>
+        <li class="list-group-item"><b>Sex:</b> @(Model?.Sex ?? "N/A")</li>
+        <li class="list-group-item"><b>Age at Death:</b> @(Model?.AgeAtDeath ?? "N/A")</li>
+        <li class="list-group-item"><b>Textile Color:</b> @(Model?.Color ?? "N/A")</li>
+        <li class="list-group-item"><b>Textile Structure:</b> @(Model?.TextileStructure ?? "N/A")</li>
+        <li class="list-group-item"><b>Textile Function:</b> @(Model?.TextileFunction ?? "N/A")</li>
+        <li class="list-group-item"><b>Alternate ID:</b> @(Model?.Id)</li>
     </ul>
     <div class="bg-light p-1">
         <h4>Yarn Manipulation Info:</h4>
@@ -35,11 +33,11 @@
         @foreach (var ym in Model.YarnManipulations)
         {
 
-            <li>Component: @ym.Component</li>
-            <li>Material: @ym.Material</li>
-            <li>Direction: @ym.Direction</li>
-            <li>Count: @ym.Count</li>
-            <li>Ply: @ym.Ply</li>
+            <li class="list-group-item"><b>Component:</b> @ym.Component</li>
+            <li class="list-group-item"><b>Material:</b> @ym.Material</li>
+            <li class="list-group-item"><b>Direction:</b> @ym.Direction</li>
+            <li class="list-group-item"><b>Count:</b> @ym.Count</li>
+            <li class="list-group-item"><b>Ply:</b> @ym.Ply</li>
 
 
         }
@@ -54,7 +52,7 @@
 <div class="row">
     @foreach (var photo in Model.PhotoDataList)
     {
-        <p>Description: @photo.Description</p><br />
+        <p class="list-group-item" ><b>Description:</b> @photo.Description</p><br />
         <div class="col-md-4">
             <img src="@photo.Url" class="img-fluid" alt="Image from PhotoData" />
         </div>
