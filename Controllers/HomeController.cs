@@ -61,28 +61,65 @@ namespace Intex2.Controllers
         [HttpPost]
         public IActionResult MoreInfo(long itemId)
         {
-            // Retrieve the specific record using the id (Replace "dbContext" with the name of your database context variable)
-            var burial = _context.BurialMain.FirstOrDefault(b => b.Id == itemId);
-
             // Check if the record exists
-            if (burial == null)
+            if (!_context.BurialMain.Any(b => b.Id == itemId))
             {
                 return NotFound(); // Return a 404 Not Found response if the record doesn't exist
             }
 
-            // Create an instance of the MoreInfoViewModel and populate it with the data from the burial object
-            MoreInfoViewModel viewModel = new MoreInfoViewModel
-            {
-                Id = burial.Id,
-                Sex = burial.Sex,
-                Depth = burial.Depth,
-                AgeAtDeath = burial.Ageatdeath,
-                // Populate other properties as needed from the burial object
-            };
+            // Create an instance of the MoreInfoViewModel and populate it with the data from different tables
+            MoreInfoViewModel viewModel = (from b in _context.BurialMain
+                                           join bt in _context.BurialmainTextile on b.Id equals bt.MainBurialmainid into b_bt
+                                           from bt in b_bt.DefaultIfEmpty()
+                                           join tft in _context.TextilefunctionTextile on bt.MainTextileid equals tft.MainTextileid into bt_tft
+                                           from tft in bt_tft.DefaultIfEmpty()
+                                           join tf in _context.Textilefunction on tft.MainTextilefunctionid equals tf.Id into tft_tf
+                                           from tf in tft_tf.DefaultIfEmpty()
+                                           join ct in _context.ColorTextile on bt.MainTextileid equals ct.MainTextileid into bt_ct
+                                           from ct in bt_ct.DefaultIfEmpty()
+                                           join cl in _context.Color on ct.MainColorid equals cl.Id into ct_cl
+                                           from cl in ct_cl.DefaultIfEmpty()
+                                           join st in _context.StructureTextile on bt.MainTextileid equals st.MainTextileid into bt_st
+                                           from st in bt_st.DefaultIfEmpty()
+                                           join s in _context.Structure on st.MainStructureid equals s.Id into st_s
+                                           from s in st_s.DefaultIfEmpty()
+                                           where b.Id == itemId
+                                           select new MoreInfoViewModel
+                                           {
+                                               Id = b.Id,
+                                               Sex = b.Sex,
+                                               Depth = b.Depth,
+                                               AgeAtDeath = b.Ageatdeath,
+                                               TextileFunction = tf.Value,
+                                               Color = cl.Value,
+                                               TextileStructure = s.Value,
+                                               CustomBurialId = b.CustomBurialId
+                                           }).FirstOrDefault();
 
+            // Retrieve YarnManipulation records related to the BurialMain record
+            List<Yarnmanipulation> yarnManipulations = (from bt in _context.BurialmainTextile
+                                            join b in _context.BurialMain on bt.MainBurialmainid equals b.Id
+                                            join ymt in _context.YarnmanipulationTextile on bt.MainTextileid equals ymt.MainTextileid
+                                            join ym in _context.Yarnmanipulation on ymt.MainYarnmanipulationid equals ym.Id
+                                            where b.Id == itemId
+                                            select ym).ToList();
+
+            // Add YarnManipulation records to the viewModel
+            viewModel.YarnManipulations = yarnManipulations;
+
+            List<Photodata> photoDataList = (from bt in _context.BurialmainTextile
+                                             join b in _context.BurialMain on bt.MainBurialmainid equals b.Id
+                                             join pht in _context.PhotodataTextile on bt.MainTextileid equals pht.MainTextileid
+                                             join pd in _context.Photodata on pht.MainPhotodataid equals pd.Id
+                                             where b.Id == itemId
+                                             select pd).ToList();
+
+            // Add PhotoData records to the viewModel
+            viewModel.PhotoDataList = photoDataList;
             // Pass the viewModel to the MoreInfo view
             return View(viewModel);
         }
+
 
         //[HttpGet]
         //public IActionResult MoreInfo(long itemId)
@@ -92,31 +129,31 @@ namespace Intex2.Controllers
         //    // Get the burial and textile info based on the provided itemId
 
 
-        //    var allBurialsWithInfo = (from b in _context.BurialMain
-        //                              join bt in _context.BurialmainTextile on b.Id equals bt.MainBurialmainid into b_bt
-        //                              from bt in b_bt.DefaultIfEmpty()
-        //                              join tft in _context.TextilefunctionTextile on bt.MainTextileid equals tft.MainTextileid into bt_tft
-        //                              from tft in bt_tft.DefaultIfEmpty()
-        //                              join tf in _context.Textilefunction on tft.MainTextilefunctionid equals tf.Id into tft_tf
-        //                              from tf in tft_tf.DefaultIfEmpty()
-        //                              join ct in _context.ColorTextile on bt.MainTextileid equals ct.MainTextileid into bt_ct
-        //                              from ct in bt_ct.DefaultIfEmpty()
-        //                              join cl in _context.Color on ct.MainColorid equals cl.Id into ct_cl
-        //                              from cl in ct_cl.DefaultIfEmpty()
-        //                              join st in _context.StructureTextile on bt.MainTextileid equals st.MainTextileid into bt_st
-        //                              from st in bt_st.DefaultIfEmpty()
-        //                              join s in _context.Structure on st.MainStructureid equals s.Id into st_s
-        //                              from s in st_s.DefaultIfEmpty()
-        //                              select new TestBurialsViewModel
-        //                              {
-        //                                  Id = b.Id,
-        //                                  Sex = b.Sex,
-        //                                  Depth = b.Depth,
-        //                                  AgeAtDeath = b.Ageatdeath,
-        //                                  TextileFunction = tf.Value,
-        //                                  Color = cl.Value,
-        //                                  TextileStructure = s.Value
-        //                              });
+        //var allBurialsWithInfo = (from b in _context.BurialMain
+        //                          join bt in _context.BurialmainTextile on b.Id equals bt.MainBurialmainid into b_bt
+        //                          from bt in b_bt.DefaultIfEmpty()
+        //                          join tft in _context.TextilefunctionTextile on bt.MainTextileid equals tft.MainTextileid into bt_tft
+        //                          from tft in bt_tft.DefaultIfEmpty()
+        //                          join tf in _context.Textilefunction on tft.MainTextilefunctionid equals tf.Id into tft_tf
+        //                          from tf in tft_tf.DefaultIfEmpty()
+        //                          join ct in _context.ColorTextile on bt.MainTextileid equals ct.MainTextileid into bt_ct
+        //                          from ct in bt_ct.DefaultIfEmpty()
+        //                          join cl in _context.Color on ct.MainColorid equals cl.Id into ct_cl
+        //                          from cl in ct_cl.DefaultIfEmpty()
+        //                          join st in _context.StructureTextile on bt.MainTextileid equals st.MainTextileid into bt_st
+        //                          from st in bt_st.DefaultIfEmpty()
+        //                          join s in _context.Structure on st.MainStructureid equals s.Id into st_s
+        //                          from s in st_s.DefaultIfEmpty()
+        //                          select new TestBurialsViewModel
+        //                          {
+        //                              Id = b.Id,
+        //                              Sex = b.Sex,
+        //                              Depth = b.Depth,
+        //                              AgeAtDeath = b.Ageatdeath,
+        //                              TextileFunction = tf.Value,
+        //                              Color = cl.Value,
+        //                              TextileStructure = s.Value
+        //                          });
         //    //var burialsWithInfo = from b in _context.BurialMain
         //    //                      join bt in _context.BurialmainTextile on b.Id equals bt.MainBurialmainid into b_bt
         //    //                      from bt in b_bt.DefaultIfEmpty()
@@ -154,7 +191,7 @@ namespace Intex2.Controllers
         //    // Retrieve the specific record using the id (Replace "dbContext" with the name of your database context variable)
         //    var burial = _context.BurialMain.FirstOrDefault(b => b.Id == id);
 
-           
+
 
         //    // Pass the retrieved record to the MoreInfo view
         //    return View(burial);
@@ -262,8 +299,9 @@ namespace Intex2.Controllers
                                             AgeAtDeath = b.Ageatdeath,
                                             TextileFunction = tf.Value,
                                             Color = cl.Value,
-                                            TextileStructure = s.Value
-                                        });
+                                            TextileStructure = s.Value,
+                                            CustomBurialId = b.CustomBurialId
+                                        }).OrderBy(b => b.Id);
 
             if (showOnlyWithColor)
             {

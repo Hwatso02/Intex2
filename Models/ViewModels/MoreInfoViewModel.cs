@@ -21,7 +21,10 @@ namespace Intex2.Models.ViewModels
         public string Ply { get; set; }
         public string HairColor { get; set; }
         public string HeadDirection { get; set; }
+        public string CustomBurialId { get; set; }
         public TestBurialsViewModel BurialInfo { get; set; }
+        public List<Yarnmanipulation> YarnManipulations { get; set; }
+        public List<Photodata> PhotoDataList { get; set; }
     }
 }
 

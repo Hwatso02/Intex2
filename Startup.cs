@@ -14,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 
@@ -40,13 +39,12 @@ namespace Intex2
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-
+                // This lambda determines whether user consent for non-essential
                 // cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 // requires using Microsoft.AspNetCore.Http;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
 
             string defaultConnectionString = string.Format(
               Configuration.GetConnectionString("DefaultConnection"),
@@ -56,7 +54,6 @@ namespace Intex2
               Environment.GetEnvironmentVariable("DEFAULT_DB_USER"),
               Environment.GetEnvironmentVariable("DEFAULT_DB_PASSWORD")
           );
-
 
             string authLinkConnectionString = string.Format(
                 Configuration.GetConnectionString("AuthLink"),
@@ -106,6 +103,11 @@ namespace Intex2
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; img-src 'self' https://cwadmin.byu.edu; script-src 'self'; style-src 'self' 'unsafe-inline';");
+                await next();
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -119,19 +121,8 @@ namespace Intex2
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
 
             app.UseRouting();
-
-            ////Temporary middleware for testing, don't use in production!
-            //app.Use(async (context, next) =>
-            //{
-            //    var userIdentity = new ClaimsIdentity(new[] {
-            //        new Claim(ClaimTypes.Role, "Admin")
-            //    }, "Demo");
-            //    context.User = new ClaimsPrincipal(userIdentity);
-            //    await next.Invoke();
-            //});
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -141,7 +132,6 @@ namespace Intex2
                 context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; img-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
                 await next();
             });
-
 
             app.UseEndpoints(endpoints =>
             {
