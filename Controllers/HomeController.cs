@@ -1,5 +1,6 @@
 ﻿using Intex2.Models;
 using Intex2.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -25,39 +26,7 @@ namespace Intex2.Controllers
             _context = context;
         }
 
-        public IActionResult TestConnection()
-        {
-            string testQuery = "SELECT 1";
-            try
-            {
-                using (var command = _context.Database.GetDbConnection().CreateCommand())
-                {
-                    command.CommandText = testQuery;
-                    _context.Database.OpenConnection();
-                    using (var result = command.ExecuteReader())
-                    {
-                        if (result.Read())
-                        {
-                            ViewData["TestResult"] = "Connection successful!";
-                        }
-                        else
-                        {
-                            ViewData["TestResult"] = "Connection failed: No results.";
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ViewData["TestResult"] = $"Connection failed: {ex.Message}";
-            }
-            finally
-            {
-                _context.Database.CloseConnection();
-            }
-
-            return View();
-        }
+        
         [HttpPost]
         public IActionResult MoreInfo(long itemId)
         {
@@ -93,7 +62,10 @@ namespace Intex2.Controllers
                                                TextileFunction = tf.Value,
                                                Color = cl.Value,
                                                TextileStructure = s.Value,
-                                               CustomBurialId = b.CustomBurialId
+                                               CustomBurialId = b.CustomBurialId,
+                                               Fieldbookexcavationyear = b.Fieldbookexcavationyear,
+                                               Clusternumber = b.Clusternumber,
+                                               Shaftnumber = b.Shaftnumber
                                            }).FirstOrDefault();
 
             // Retrieve YarnManipulation records related to the BurialMain record
@@ -242,36 +214,36 @@ namespace Intex2.Controllers
         //}
 
 
-        public IActionResult DisplayBurials(int pageNum = 1)
-        {
-            int pageSize = 15;
+        //public IActionResult DisplayBurials(int pageNum = 1)
+        //{
+        //    int pageSize = 15;
 
-            var viewModel = new BurialsViewModel
-            {
-                Burialmains = _context.BurialMain
-                    //.OrderBy(b => b.Burialid)
-                    .Skip((pageNum - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList(),
+        //    var viewModel = new BurialsViewModel
+        //    {
+        //        Burialmains = _context.BurialMain
+        //            //.OrderBy(b => b.Burialid)
+        //            .Skip((pageNum - 1) * pageSize)
+        //            .Take(pageSize)
+        //            .ToList(),
 
-                PageInfo = new PageInfo
-                {
-                    TotalNumBurials = _context.BurialMain.Count(),
-                    BurialsPerPage = pageSize,
-                    CurrentPage = pageNum
-                },
+        //        PageInfo = new PageInfo
+        //        {
+        //            TotalNumBurials = _context.BurialMain.Count(),
+        //            BurialsPerPage = pageSize,
+        //            CurrentPage = pageNum
+        //        },
 
-                Bodyanalysischarts = _context.BodyAnalysisChart
-                    //.OrderBy(b => b.Id)
-                    .Skip((pageNum - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList()
-            };
+        //        Bodyanalysischarts = _context.BodyAnalysisChart
+        //            //.OrderBy(b => b.Id)
+        //            .Skip((pageNum - 1) * pageSize)
+        //            .Take(pageSize)
+        //            .ToList()
+        //    };
 
-            return View(viewModel);
-        }
+        //    return View(viewModel);
+        //}
         [HttpGet]
-        public IActionResult GetTestDisplayBurials(int pageNum = 1, bool showOnlyWithColor = false, string sexFilter = null, string textileFunctionFilter = null, string textileStructureFilter = null, string showDepthNotNull = null, string showAgeAtDeathNotNull = null, string showSexNotNull = null, string showIdNotNull = null)
+        public IActionResult GetTestDisplayBurials(int pageNum = 1, bool showOnlyWithColor = false, string sexFilter = null, string textileFunctionFilter = null, string textileStructureFilter = null, string showDepthNotNull = null, string showAgeAtDeathNotNull = null, string showSexNotNull = null, string showIdNotNull = null, string showFieldbook = null, string showCluster = null, string showShaftNum = null)
         {
             int pageSize = 15;
             var viewModel = new TestBurialsPageViewModel();
@@ -300,8 +272,11 @@ namespace Intex2.Controllers
                                             TextileFunction = tf.Value,
                                             Color = cl.Value,
                                             TextileStructure = s.Value,
-                                            CustomBurialId = b.CustomBurialId
-                                        }).OrderBy(b => b.Id);
+                                            CustomBurialId = b.CustomBurialId,
+                                            Fieldbookexcavationyear = b.Fieldbookexcavationyear,
+                                            Clusternumber = b.Clusternumber,
+                                            Shaftnumber  = b.Shaftnumber
+                                           }).OrderBy(b => b.Id);
 
             if (showOnlyWithColor)
             {
@@ -334,6 +309,21 @@ namespace Intex2.Controllers
                 allBurialsWithInfo = allBurialsWithInfo.Where(b => b.AgeAtDeath != null).OrderByDescending(b => b.AgeAtDeath);
             }
 
+            if (!string.IsNullOrEmpty(showFieldbook))
+            {
+                allBurialsWithInfo = allBurialsWithInfo.Where(b => b.Fieldbookexcavationyear != null).OrderByDescending(b => b.Fieldbookexcavationyear);
+            }
+
+            if (!string.IsNullOrEmpty(showCluster))
+            {
+                allBurialsWithInfo = allBurialsWithInfo.Where(b => b.Clusternumber != null).OrderByDescending(b => b.Clusternumber);
+            }
+
+            if (!string.IsNullOrEmpty(showShaftNum))
+            {
+                allBurialsWithInfo = allBurialsWithInfo.Where(b => b.Shaftnumber != null).OrderByDescending(b => b.Shaftnumber);
+            }
+
 
             viewModel.TestBurials = allBurialsWithInfo.Skip((pageNum - 1) * pageSize)
                                                  .Take(pageSize)
@@ -351,9 +341,9 @@ namespace Intex2.Controllers
 
 
         [HttpPost]
-        public IActionResult TestDisplayBurials(int pageNum = 1, bool showOnlyWithColor = false, string sexFilter = null, string textileFunctionFilter = null, string textileStructureFilter = null, string showDepthNotNull = null, string showAgeAtDeathNotNull = null, string showSexNotNull = null)
+        public IActionResult TestDisplayBurials(int pageNum = 1, bool showOnlyWithColor = false, string sexFilter = null, string textileFunctionFilter = null, string textileStructureFilter = null, string showDepthNotNull = null, string showAgeAtDeathNotNull = null, string showSexNotNull = null, string showFieldbook = null, string showCluster = null, string showShaftNum = null)
         {
-            return RedirectToAction("GetTestDisplayBurials", new { pageNum, showOnlyWithColor, sexFilter, textileFunctionFilter, textileStructureFilter, showDepthNotNull, showAgeAtDeathNotNull, showSexNotNull  });
+            return RedirectToAction("GetTestDisplayBurials", new { pageNum, showOnlyWithColor, sexFilter, textileFunctionFilter, textileStructureFilter, showDepthNotNull, showAgeAtDeathNotNull, showSexNotNull, showFieldbook, showCluster, showShaftNum });
         }
 
 
@@ -523,6 +513,7 @@ namespace Intex2.Controllers
         //Crud Functions
         //Add
         [HttpGet]
+        [Authorize]
         public IActionResult Add()
         {
             return View();
@@ -536,6 +527,7 @@ namespace Intex2.Controllers
         }
         //Edit
         [HttpGet]
+        [Authorize]
         public IActionResult Edit(long recordid)
         {
             var record = _context.BurialMain.Find(recordid);
@@ -545,7 +537,7 @@ namespace Intex2.Controllers
             {
                 return NotFound();
             }
-            return View("Add", record);
+            return View("EditRec", record);
         }
         [HttpPost]
         public IActionResult Edit(BurialMain burial)
@@ -557,6 +549,7 @@ namespace Intex2.Controllers
         }
         //Delete baby
         [HttpGet]
+        [Authorize]
         public IActionResult Delete(long recordid)
         {
             var burial = _context.BurialMain.Find(recordid);
@@ -573,7 +566,7 @@ namespace Intex2.Controllers
             _context.BurialMain.Remove(burial);
             _context.SaveChanges();
 
-            return RedirectToAction(nameof(DisplayBurials));
+            return RedirectToAction(nameof(TestDisplayBurials));
         }
 
 

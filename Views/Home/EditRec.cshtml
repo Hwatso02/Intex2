@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Edit a Record";
+}
+@model Intex2.Models.BurialMain
+
+<h1>Edit a Burial Record</h1>
+
+<div>
+    <form method="post">
+        <label asp-for="Squarenorthsouth">Square Number:</label>
+        <input asp-for="Squarenorthsouth" /><br />
+
+        <label asp-for="Northsouth">North or South:</label>
+        <input asp-for="Northsouth" /><br />
+
+        <label asp-for="Squareeastwest">Square Number:</label>
+        <input asp-for="Squareeastwest" /><br />
+
+        <label asp-for="Eastwest">East or West:</label>
+        <input asp-for="Eastwest" /><br />
+
+        <label asp-for="Area">Area (NW, SW, NE, SE):</label>
+        <input asp-for="Area" /><br />
+
+        <label asp-for="Burialnumber">Burial Number:</label>
+        <input asp-for="Burialnumber" /><br />
+
+        <label asp-for="Depth">Burial Depth:</label>
+        <input asp-for="Depth" /><br />
+
+        <label asp-for="Sex">Sex:</label>
+        <input asp-for="Sex" /><br />
+
+        <label asp-for="Ageatdeath">Age at Death:</label>
+        <input asp-for="Ageatdeath" /><br />
+
+        <label asp-for="Id">Alternate Id:</label>
+        <input asp-for="Id" /><br />
+
+        <button type="submit">Submit Edit</button>
+    </form>
+</div>

@@ -1,11 +1,14 @@
 using Intex2.Data;
 using Intex2.Models;
+using Microsoft.AspNetCore.Rewrite;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,6 +49,10 @@ namespace Intex2
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+
+
+
+
             string defaultConnectionString = string.Format(
               Configuration.GetConnectionString("DefaultConnection"),
               Environment.GetEnvironmentVariable("DEFAULT_DB_HOST"),
@@ -85,6 +92,8 @@ namespace Intex2
             .AddDefaultUI()
             .AddDefaultTokenProviders();
 
+
+
             services.AddControllersWithViews();
             services.AddRazorPages();
 
@@ -97,6 +106,7 @@ namespace Intex2
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 20;
                 options.Password.RequiredUniqueChars = 0;
+                
             });
         }
 
@@ -105,7 +115,7 @@ namespace Intex2
         {
             app.Use(async (context, next) =>
             {
-                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; img-src 'self' https://cwadmin.byu.edu 'unsafe-inline'; script-src 'self'; style-src 'self' 'unsafe-inline';");
+                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; img-src 'self' https://cwadmin.byu.edu 'unsafe-inline'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://fag-el-gamous--group-1-12.is404.net:8000;");
                 await next();
             });
 
@@ -119,9 +129,12 @@ namespace Intex2
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+         
+
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseRouting();
 
