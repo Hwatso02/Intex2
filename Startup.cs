@@ -105,7 +105,7 @@ namespace Intex2
         {
             app.Use(async (context, next) =>
             {
-                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; img-src 'self' https://cwadmin.byu.edu 'unsafe-inline'; script-src 'self'; style-src 'self' 'unsafe-inline';");
+                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; img-src 'self' https://cwadmin.byu.edu 'unsafe-inline'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://fag-el-gamous--group-1-12.is404.net:8000;");
                 await next();
             });
 

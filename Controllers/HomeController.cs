@@ -25,39 +25,7 @@ namespace Intex2.Controllers
             _context = context;
         }
 
-        public IActionResult TestConnection()
-        {
-            string testQuery = "SELECT 1";
-            try
-            {
-                using (var command = _context.Database.GetDbConnection().CreateCommand())
-                {
-                    command.CommandText = testQuery;
-                    _context.Database.OpenConnection();
-                    using (var result = command.ExecuteReader())
-                    {
-                        if (result.Read())
-                        {
-                            ViewData["TestResult"] = "Connection successful!";
-                        }
-                        else
-                        {
-                            ViewData["TestResult"] = "Connection failed: No results.";
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ViewData["TestResult"] = $"Connection failed: {ex.Message}";
-            }
-            finally
-            {
-                _context.Database.CloseConnection();
-            }
-
-            return View();
-        }
+        
         [HttpPost]
         public IActionResult MoreInfo(long itemId)
         {
@@ -242,34 +210,34 @@ namespace Intex2.Controllers
         //}
 
 
-        public IActionResult DisplayBurials(int pageNum = 1)
-        {
-            int pageSize = 15;
+        //public IActionResult DisplayBurials(int pageNum = 1)
+        //{
+        //    int pageSize = 15;
 
-            var viewModel = new BurialsViewModel
-            {
-                Burialmains = _context.BurialMain
-                    //.OrderBy(b => b.Burialid)
-                    .Skip((pageNum - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList(),
+        //    var viewModel = new BurialsViewModel
+        //    {
+        //        Burialmains = _context.BurialMain
+        //            //.OrderBy(b => b.Burialid)
+        //            .Skip((pageNum - 1) * pageSize)
+        //            .Take(pageSize)
+        //            .ToList(),
 
-                PageInfo = new PageInfo
-                {
-                    TotalNumBurials = _context.BurialMain.Count(),
-                    BurialsPerPage = pageSize,
-                    CurrentPage = pageNum
-                },
+        //        PageInfo = new PageInfo
+        //        {
+        //            TotalNumBurials = _context.BurialMain.Count(),
+        //            BurialsPerPage = pageSize,
+        //            CurrentPage = pageNum
+        //        },
 
-                Bodyanalysischarts = _context.BodyAnalysisChart
-                    //.OrderBy(b => b.Id)
-                    .Skip((pageNum - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList()
-            };
+        //        Bodyanalysischarts = _context.BodyAnalysisChart
+        //            //.OrderBy(b => b.Id)
+        //            .Skip((pageNum - 1) * pageSize)
+        //            .Take(pageSize)
+        //            .ToList()
+        //    };
 
-            return View(viewModel);
-        }
+        //    return View(viewModel);
+        //}
         [HttpGet]
         public IActionResult GetTestDisplayBurials(int pageNum = 1, bool showOnlyWithColor = false, string sexFilter = null, string textileFunctionFilter = null, string textileStructureFilter = null, string showDepthNotNull = null, string showAgeAtDeathNotNull = null, string showSexNotNull = null, string showIdNotNull = null)
         {
@@ -573,7 +541,7 @@ namespace Intex2.Controllers
             _context.BurialMain.Remove(burial);
             _context.SaveChanges();
 
-            return RedirectToAction(nameof(DisplayBurials));
+            return RedirectToAction(nameof(TestDisplayBurials));
         }
 
 
