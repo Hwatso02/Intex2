@@ -14,5 +14,6 @@ namespace Intex2.Models.ViewModels
         public string TextileFunction { get; set; }
         public string Color { get; set; }
         public string TextileStructure { get; set; }
+        public string CustomBurialId { get; set; }
     }
 }

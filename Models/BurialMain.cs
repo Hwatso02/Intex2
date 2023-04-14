@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -9,6 +10,7 @@ namespace Intex2.Models
 {
     public partial class BurialMain
     {
+        [Key]
         public long Id { get; set; }
         public string Squarenorthsouth { get; set; }
         public string Headdirection { get; set; }
@@ -44,5 +46,12 @@ namespace Intex2.Models
         public string Fieldbookexcavationyear { get; set; }
         public string Clusternumber { get; set; }
         public string Shaftnumber { get; set; }
+        public string CustomBurialId
+        {
+            get
+            {
+                return Squarenorthsouth + "_" + Northsouth + "_" + Squareeastwest + "_" + Eastwest + "_" +  Area + "_" + Burialnumber;
+            }
+        }
     }
 }
